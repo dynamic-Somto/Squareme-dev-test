@@ -1,24 +1,14 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-
 import '../services/navigation/index.dart';
-import 'colors.dart';
 
 class HelperFunc {
   HelperFunc._();
 
   static SizedBox sb(double value) => SizedBox(height: value, width: value);
-
-  static DateFormat get dateFormat => DateFormat('MMM dd, yyyy');
-
-  static DateFormat get timeFormat => DateFormat.jm();
 
   static void showLoader() {
     AlertDialog alert = AlertDialog(
@@ -40,13 +30,11 @@ class HelperFunc {
     );
   }
 
-  static void toast(String message) => Fluttertoast.showToast(msg: message);
 
   static void logger(String msg) => log(msg);
 
   static void copyToClipboard(String text, {String? toastMsg}) {
     Clipboard.setData(ClipboardData(text: text));
-    toast(toastMsg ?? 'Copied to clipboard');
   }
 
   static void showCustomBottomSheet(
@@ -68,27 +56,12 @@ class HelperFunc {
               borderRadius: BorderRadius.vertical(top: Radius.circular(40.r)),
             ),
             child:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               // if (showBackButton) const AppBackButton(),
               // child.pd(EdgeInsets.symmetric(horizontal: 20.w)).EXPANDED
             ]),
           );
         });
-  }
-
-  static Future<File?> pickImage() async {
-    try {
-      XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return null;
-      if (File(image.path).lengthSync() >= (2 * 1024 * 1024)) {
-        toast('File size should be less than 3MB');
-        return null;
-      }
-      return File(image.path);
-    } catch (e) {
-      logger(e.toString());
-    }
-    return null;
   }
 
   static void showFittedBottomSheet(
@@ -113,61 +86,6 @@ class HelperFunc {
             //     children: [if (showBackButton) const AppBackButton(), child]),
           );
         });
-  }
-
-  static Future<void> pickDate(
-      {required BuildContext context,
-        DateTime? initialDate,
-        DateTime? firstDate,
-        void Function(DateTime?)? onChanged,
-        required ValueNotifier<DateTime?> dateValue}) async {
-    if (Platform.isAndroid) {
-      dateValue.value = await showDatePicker(
-          context: context,
-          initialDate: initialDate ?? DateTime.now(),
-          firstDate: firstDate ?? DateTime.now(),
-          lastDate: DateTime(2100));
-      if (onChanged != null) {
-        onChanged(dateValue.value);
-      }
-    } else {
-      showCupertinoModalPopup(
-          context: context,
-          builder: (_) => Container(
-            height: 300,
-            padding: const EdgeInsets.only(top: 10),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                BorderRadius.vertical(top: Radius.circular(30))),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 200,
-                  child: CupertinoDatePicker(
-                      mode: CupertinoDatePickerMode.date,
-                      minimumDate: firstDate ?? DateTime.now(),
-                      maximumDate: DateTime(2100),
-                      minimumYear: (firstDate ?? DateTime.now()).year,
-                      maximumYear: DateTime(2100).year,
-                      onDateTimeChanged: (newDate) {
-                        dateValue.value = newDate;
-                        if (onChanged != null) {
-                          onChanged(newDate);
-                        }
-                      }),
-                ),
-                CupertinoButton(
-                    child: const Text('OK',
-                        style: TextStyle(
-                            fontSize: 14, color: AppColors.materialColor)),
-                    onPressed: () {
-                      globalPop();
-                    })
-              ],
-            ),
-          ));
-    }
   }
 
   static void showPopUpDialog(

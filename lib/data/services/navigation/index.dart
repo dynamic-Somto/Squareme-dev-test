@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-
 import '../../../di/get_it.dart';
+
 abstract class NavigationService {
   Future<dynamic> navigateTo(String routeName, {dynamic arguments});
   Future<dynamic> replaceWith(String routeName, {dynamic arguments});

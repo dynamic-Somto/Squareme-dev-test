@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppTextStyles {
-  static TextStyle regularText(
+  static TextStyle regular(
       {double fontSize = 12.5,
         Color? color}) {
     return TextStyle(
         fontSize: fontSize.sp,
-        fontFamily: 'LIGHT',
         color: color);
   }
 
-  static TextStyle mediumText(
+  static TextStyle medium(
       {double fontSize = 14, Color? color}) {
     return TextStyle(
-      // fontWeight: FontWeight.w600,
-        fontFamily: 'MEDIUM',
+      fontWeight: FontWeight.w600,
         fontSize: fontSize.sp,
         color: color);
   }
@@ -22,17 +20,15 @@ class AppTextStyles {
   static TextStyle semiBold(
       {double fontSize = 18, Color? color}) {
     return TextStyle(
-      // fontWeight: FontWeight.w700,
-        fontFamily: 'BOLD',
+      fontWeight: FontWeight.w700,
         fontSize: fontSize.sp,
         color: color);
   }
 
-  static TextStyle boldText(
+  static TextStyle bold(
       {double fontSize = 20, Color? color}) {
     return TextStyle(
-      // fontWeight: FontWeight.bold,
-        fontFamily: 'HEAVY',
+      fontWeight: FontWeight.bold,
         fontSize: fontSize.sp,
         color: color);
   }
